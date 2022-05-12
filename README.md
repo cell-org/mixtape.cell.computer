@@ -198,16 +198,19 @@ The current version of the token table has a **fixed schema**. (Future versions 
   - `type`: string
   - `notNullable`: true
   - `index`: true
-- **raw:** whether the metadata CID encoding is `raw` or `dag-pb`. `true` if raw, `false` if dag-pb.
-  - `type`: boolean
+- **encoding:** whether the metadata CID encoding is `raw` or `dag-pb`. `0` if raw, `1` if dag-pb.
+  - `type`: integer
   - `notNullable`: true
 - **cid:** the IPFS CID of the metadata. the `id` and `raw` attributes can be derived from this attribute.
   - `type`: string
   - `notNullable`: true
-- **minter:** the account allowed to mint this token. (set as a `0x0` address if anyone can mint)
+- **sender:** the account allowed to mint this token. (set as a `0x0` address if anyone can mint)
   - `type`: string
   - `index`: true
-- **price:** the price at which this token can be minted to the blockchain
+- **receiver:** the account that will receive the token when minted (set as a `0x0` address if whoever mints the token will receive the token)
+  - `type`: string
+  - `index`: true
+- **value:** the value at which this token can be minted to the blockchain
   - `type`: bigInteger
   - `index`: true
 - **start:** the start time (unix timestamp in seconds) at which this token can be minted onto the blockchain. Set to 0 if immediately mintable.
@@ -219,7 +222,10 @@ The current version of the token table has a **fixed schema**. (Future versions 
   - `index`: true
 - **royaltyAmount:** the royalty amount out of 1,000,000 for each sale, which will be sent to the `royaltyReceiver` whenever a sale is made.
   - `type`: integer
-- **merkleHash:** the merkle root of all the allowed addresses by which the token can be minted onto the blockchain.
+- **sendersHash:** the merkle root of all the addresses allowed to mint
+  - `type`: string
+  - `index`: true
+- **receiversHash:** the merkle root of all the addresses allowed to receive the NFT when minted
   - `type`: string
   - `index`: true
 - **puzzleHash:** the sha3 hash preimage to which the minter needs to provide a solution in order to mint the token onto the blockchain.
